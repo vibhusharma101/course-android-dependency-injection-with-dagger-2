@@ -44,9 +44,12 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionDetailsViewMvc.List
 
         // retrieve question ID passed from outside
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
+//following law of delimeters
+//        fetchQuestionsDetailsUseCase =
+//            FetchQuestionsDetailsUseCase((application as MyApplication).stackOverFlowApi)
 
-        fetchQuestionsDetailsUseCase =
-            FetchQuestionsDetailsUseCase((application as MyApplication).stackOverFlowApi)
+
+        fetchQuestionsDetailsUseCase = (application as MyApplication).fetchQuestionsDetailsUseCase
         dialogsNavigator = DialogsNavigator(this.supportFragmentManager)
         screensNavigator = ScreensNavigator(this)
     }

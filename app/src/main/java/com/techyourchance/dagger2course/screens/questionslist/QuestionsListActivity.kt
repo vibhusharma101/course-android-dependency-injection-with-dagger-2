@@ -38,7 +38,13 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
             R.layout.layout_questions_list
         )
         setContentView(viewMvc.rootView)
-        fetchQuestionsUseCase = FetchQuestionsUseCase((application as MyApplication).stackOverFlowApi)
+
+        //this class only uses fetchQuestionUseCase it doesnot use stackoverflow Api anyhwhere so this class doesnot need to know about it.
+
+//        fetchQuestionsUseCase = FetchQuestionsUseCase((application as MyApplication).fetchQuestionsUseCase)
+
+        fetchQuestionsUseCase = (application as MyApplication).fetchQuestionsUseCase
+
         dialogsNavigator = DialogsNavigator(this.supportFragmentManager)
         screensNavigator = ScreensNavigator(this)
 

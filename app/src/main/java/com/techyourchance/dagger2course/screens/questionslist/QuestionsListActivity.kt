@@ -14,89 +14,100 @@ import com.techyourchance.dagger2course.screens.common.dialogs.ServerErrorDialog
 import com.techyourchance.dagger2course.screens.questiondetails.QuestionDetailsActivity
 import kotlinx.coroutines.*
 
-class QuestionsListActivity : BaseActivity(), QuestionsListViewMvc.Listener {
+class QuestionsListActivity : BaseActivity() {
 
 
-    //activity doesnot know anything about implementation deatils or logic, it only tells controller class
-    // to perform the actions it doesnot care about the implemtation details.
-    private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+//    //activity doesnot know anything about implementation deatils or logic, it only tells controller class
+//    // to perform the actions it doesnot care about the implemtation details.
+//    private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+//
+//
+//    private var isDataLoaded = false
+//
+//    private lateinit var viewMvc: QuestionsListViewMvc
+//
+//    private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+//
+//    private lateinit var dialogsNavigator: DialogsNavigator
 
 
-    private var isDataLoaded = false
-
-    private lateinit var viewMvc: QuestionsListViewMvc
-
-    private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
-
-    private lateinit var dialogsNavigator: DialogsNavigator
-
-
-    private lateinit var screensNavigator: ScreensNavigator
+    //    private lateinit var screensNavigator: ScreensNavigator
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewMvc = QuestionsListViewMvc(
-            LayoutInflater.from(this), null,
-            R.layout.layout_questions_list
-        )
-        setContentView(viewMvc.rootView)
+//        viewMvc = QuestionsListViewMvc(
+//            LayoutInflater.from(this), null,
+//            R.layout.layout_questions_list
+//        )
+//        setContentView(viewMvc.rootView)
+//
+//        //this class only uses fetchQuestionUseCase it doesnot use stackoverflow Api anyhwhere so this class doesnot need to know about it.
+//
+////        fetchQuestionsUseCase = FetchQuestionsUseCase((application as MyApplication).fetchQuestionsUseCase)
+//
+//        fetchQuestionsUseCase = compositionRoot.fetchQuestionsUseCase
+//
+//        dialogsNavigator = compositionRoot.dialogsNavigator
+//
+//        screensNavigator = compositionRoot.screensNavigator
 
-        //this class only uses fetchQuestionUseCase it doesnot use stackoverflow Api anyhwhere so this class doesnot need to know about it.
+        //==> Now ecerything is in fragment
 
-//        fetchQuestionsUseCase = FetchQuestionsUseCase((application as MyApplication).fetchQuestionsUseCase)
+        setContentView(R.layout.layout_frame)
 
-        fetchQuestionsUseCase = compositionRoot.fetchQuestionsUseCase
 
-        dialogsNavigator = compositionRoot.dialogsNavigator
-
-        screensNavigator = compositionRoot.screensNavigator
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewMvc.registerListener(this)
-        if (!isDataLoaded) {
-            fetchQuestions()
+        if (savedInstanceState === null) {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.frame_content, QuestionsListFragment()).commit()
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        viewMvc.unregisterListener(this)
-        coroutineScope.coroutineContext.cancelChildren()
-    }
-
-    private fun fetchQuestions() {
-        coroutineScope.launch {
-            viewMvc.showProgressIndication()
-            try {
-                when (val result = fetchQuestionsUseCase.fetchLatestQuestions()) {
-                    is FetchQuestionsUseCase.Result.Success -> {
-                        viewMvc.bindQuestions(result.questions)
-                        isDataLoaded = true
-                    }
-                    is FetchQuestionsUseCase.Result.Failure -> {
-                        onFetchFailed()
-                    }
-                }
-            } finally {
-                viewMvc.hideProgressIndication()
-            }
-        }
-    }
-
-    private fun onFetchFailed() {
-        dialogsNavigator.showServerErrorDialog()
-    }
 
 
-    override fun onRefreshClicked() {
-        fetchQuestions()
     }
 
-    override fun onQuestionClicked(clickedQuestion: Question) {
-        screensNavigator.toQuestionsDetails(clickedQuestion.id)
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        viewMvc.registerListener(this)
+//        if (!isDataLoaded) {
+//            fetchQuestions()
+//        }
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        viewMvc.unregisterListener(this)
+//        coroutineScope.coroutineContext.cancelChildren()
+//    }
+//
+//    private fun fetchQuestions() {
+//        coroutineScope.launch {
+//            viewMvc.showProgressIndication()
+//            try {
+//                when (val result = fetchQuestionsUseCase.fetchLatestQuestions()) {
+//                    is FetchQuestionsUseCase.Result.Success -> {
+//                        viewMvc.bindQuestions(result.questions)
+//                        isDataLoaded = true
+//                    }
+//                    is FetchQuestionsUseCase.Result.Failure -> {
+//                        onFetchFailed()
+//                    }
+//                }
+//            } finally {
+//                viewMvc.hideProgressIndication()
+//            }
+//        }
+//    }
+//
+//    private fun onFetchFailed() {
+//        dialogsNavigator.showServerErrorDialog()
+//    }
+//
+//
+//    override fun onRefreshClicked() {
+//        fetchQuestions()
+//    }
+//
+//    override fun onQuestionClicked(clickedQuestion: Question) {
+//        screensNavigator.toQuestionsDetails(clickedQuestion.id)
+//    }
 
 
 }

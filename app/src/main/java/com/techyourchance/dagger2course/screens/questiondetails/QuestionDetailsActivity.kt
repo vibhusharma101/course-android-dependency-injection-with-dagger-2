@@ -28,18 +28,12 @@ class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener 
     private lateinit var viewMvc: QuestionDetailsViewMvc
 
     private lateinit var fetchQuestionsDetailsUseCase: FetchQuestionsDetailsUseCase
-
     private lateinit var dialogsNavigator: DialogsNavigator
-
     private lateinit var screensNavigator: ScreensNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewMvc = QuestionDetailsViewMvc(
-            LayoutInflater.from(this),
-            null,
-            R.layout.layout_question_details
-        )
+        viewMvc = compositionRoot.viewMvcFactory.newQuestionsDetailsViewMvc(null)
 
         setContentView(viewMvc.rootView)
 

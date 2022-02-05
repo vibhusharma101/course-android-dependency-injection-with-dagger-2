@@ -56,11 +56,7 @@ class QuestionsListFragment : BaseFragment(), QuestionsListViewMvc.Listener {
         savedInstanceState: Bundle?
     ): View? {
 
-        viewMvc = QuestionsListViewMvc(
-            LayoutInflater.from(requireContext()),
-            container,
-            R.layout.layout_questions_list
-        )
+        viewMvc = compositionRoot.viewMvcFactory.newQuestionsListViewMvc(container)
         return viewMvc.rootView
     }
 

@@ -18,7 +18,7 @@ class QuestionDetailsViewMvc(
 ) : BaseViewMvc<QuestionDetailsViewMvc.Listener>(layoutInflater, parent, layoutId) {
 
 
-    private val txtQuestionBody: TextView
+    private val txtQuestionBody: TextView = findViewById(R.id.txt_question_body)
     private val toolbar: MyToolbar
     private var swipeRefresh: SwipeRefreshLayout
 
@@ -28,8 +28,6 @@ class QuestionDetailsViewMvc(
     }
 
     init {
-
-        txtQuestionBody = findViewById(R.id.txt_question_body)
 
         // init toolbar
         toolbar = findViewById(R.id.toolbar)

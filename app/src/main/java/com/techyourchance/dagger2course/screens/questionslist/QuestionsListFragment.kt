@@ -30,11 +30,9 @@ class QuestionsListFragment : BaseFragment(), QuestionsListViewMvc.Listener {
     private lateinit var viewMvc: QuestionsListViewMvc
 
     private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
-
     private lateinit var dialogsNavigator: DialogsNavigator
-
-
     private lateinit var screensNavigator: ScreensNavigator
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

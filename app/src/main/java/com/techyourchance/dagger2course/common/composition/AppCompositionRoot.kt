@@ -8,6 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 //hint to maintainers everything in this class should be reported on ui thread.
+
+//for injecting global services
 @UiThread
 class AppCompositionRoot {
 

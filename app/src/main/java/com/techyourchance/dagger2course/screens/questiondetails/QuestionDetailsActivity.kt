@@ -8,12 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.techyourchance.dagger2course.Constants
 import com.techyourchance.dagger2course.MyApplication
 import com.techyourchance.dagger2course.R
+import com.techyourchance.dagger2course.common.dependencyinjection.Service
 import com.techyourchance.dagger2course.networking.StackoverflowApi
 import com.techyourchance.dagger2course.questions.FetchQuestionsDetailsUseCase
 import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import com.techyourchance.dagger2course.screens.common.activities.BaseActivity
 import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
 import com.techyourchance.dagger2course.screens.common.dialogs.ServerErrorDialogFragment
+import com.techyourchance.dagger2course.screens.viewsmvc.ViewMvcFactory
 import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,13 +29,21 @@ class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener 
 
     private lateinit var viewMvc: QuestionDetailsViewMvc
 
+    @field:Service
     private lateinit var fetchQuestionsDetailsUseCase: FetchQuestionsDetailsUseCase
+    @field:Service
     private lateinit var dialogsNavigator: DialogsNavigator
+    @field:Service
     private lateinit var screensNavigator: ScreensNavigator
+    @field:Service
+    private lateinit var viewMvcFactory: ViewMvcFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewMvc = compositionRoot.viewMvcFactory.newQuestionsDetailsViewMvc(null)
+
+
+        injector.inject(this)
+        viewMvc = viewMvcFactory.newQuestionsDetailsViewMvc(null)
 
         setContentView(viewMvc.rootView)
 
@@ -42,11 +52,6 @@ class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener 
 //following law of delimeters
 //        fetchQuestionsDetailsUseCase =
 //            FetchQuestionsDetailsUseCase((application as MyApplication).stackOverFlowApi)
-
-
-        fetchQuestionsDetailsUseCase = compositionRoot.fetchQuestionsDetailsUseCase
-        dialogsNavigator = compositionRoot.dialogsNavigator
-        screensNavigator = compositionRoot.screensNavigator
     }
 
     override fun onStart() {

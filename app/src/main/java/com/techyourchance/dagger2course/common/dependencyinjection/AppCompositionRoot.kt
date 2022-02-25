@@ -1,4 +1,4 @@
-package com.techyourchance.dagger2course.common.composition
+package com.techyourchance.dagger2course.common.dependencyinjection
 
 import androidx.annotation.UiThread
 import com.techyourchance.dagger2course.Constants

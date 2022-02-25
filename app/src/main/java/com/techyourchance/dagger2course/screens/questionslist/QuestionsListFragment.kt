@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.techyourchance.dagger2course.MyApplication
 import com.techyourchance.dagger2course.R
+import com.techyourchance.dagger2course.common.dependencyinjection.Service
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase
 import com.techyourchance.dagger2course.questions.Question
 import com.techyourchance.dagger2course.screens.common.ScreensNavigator
@@ -15,6 +16,7 @@ import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
 import com.techyourchance.dagger2course.screens.common.dialogs.ServerErrorDialogFragment
 import com.techyourchance.dagger2course.screens.common.fragments.BaseFragment
 import com.techyourchance.dagger2course.screens.questiondetails.QuestionDetailsActivity
+import com.techyourchance.dagger2course.screens.viewsmvc.ViewMvcFactory
 import kotlinx.coroutines.*
 
 class QuestionsListFragment : BaseFragment(), QuestionsListViewMvc.Listener {
@@ -29,9 +31,15 @@ class QuestionsListFragment : BaseFragment(), QuestionsListViewMvc.Listener {
 
     private lateinit var viewMvc: QuestionsListViewMvc
 
+
+    @field:Service
     private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+    @field:Service
     private lateinit var dialogsNavigator: DialogsNavigator
+    @field:Service
     private lateinit var screensNavigator: ScreensNavigator
+    @field:Service
+    lateinit var viewMvcFactory: ViewMvcFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,12 +47,18 @@ class QuestionsListFragment : BaseFragment(), QuestionsListViewMvc.Listener {
         //this class only uses fetchQuestionUseCase it doesnot use stackoverflow Api anyhwhere so this class doesnot need to know about it.
 
 //        fetchQuestionsUseCase = FetchQuestionsUseCase((application as MyApplication).fetchQuestionsUseCase)
+//
+//        fetchQuestionsUseCase = compositionRoot.fetchQuestionsUseCase
+//
+//        dialogsNavigator = compositionRoot.dialogsNavigator
+//
+//        screensNavigator = compositionRoot.screensNavigator
 
-        fetchQuestionsUseCase = compositionRoot.fetchQuestionsUseCase
 
-        dialogsNavigator = compositionRoot.dialogsNavigator
+        //changing it into injector syntax so that readability wise it resembles depedency inejection
 
-        screensNavigator = compositionRoot.screensNavigator
+        injector.inject(this)
+
 
     }
 
@@ -54,7 +68,7 @@ class QuestionsListFragment : BaseFragment(), QuestionsListViewMvc.Listener {
         savedInstanceState: Bundle?
     ): View? {
 
-        viewMvc = compositionRoot.viewMvcFactory.newQuestionsListViewMvc(container)
+        viewMvc = viewMvcFactory.newQuestionsListViewMvc(container)
         return viewMvc.rootView
     }
 

@@ -9,9 +9,10 @@ import com.techyourchance.dagger2course.common.dependencyinjection.presentation.
 import com.techyourchance.dagger2course.networking.StackoverflowApi
 import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import dagger.Component
+import dagger.Subcomponent
 
 
-@Component(dependencies = [AppComponent::class], modules = [ActivityModule::class])
+@Subcomponent(modules = [ActivityModule::class])
 interface ActivityComponent {
 
 // by using subcomponents we dont need to explicitly mention that

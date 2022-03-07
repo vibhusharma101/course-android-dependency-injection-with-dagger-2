@@ -1,8 +1,10 @@
-package com.techyourchance.dagger2course.common.dependencyinjection
+package com.techyourchance.dagger2course.common.dependencyinjection.app
 
 import androidx.annotation.UiThread
 import com.techyourchance.dagger2course.Constants
 import com.techyourchance.dagger2course.networking.StackoverflowApi
+import dagger.Module
+import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -11,19 +13,21 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 //for injecting global services
 @UiThread
-class AppCompositionRoot {
+@Module
+class AppModule {
 
     //retrofit should be initialised here as it is only instantiated once
     //always use lazy initialisation with global services.
 
-    private val retrofit: Retrofit by lazy {
-        Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
+    @Provides
+    fun retrofit(): Retrofit = Retrofit.Builder()
+        .baseUrl(Constants.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
-    val stackOverFlowApi by lazy { retrofit.create(StackoverflowApi::class.java) }
+    @Provides
+    fun stackOverFlowApi(retrofit: Retrofit): StackoverflowApi =
+        retrofit.create(StackoverflowApi::class.java)
 
 
 }

@@ -18,6 +18,7 @@ import com.techyourchance.dagger2course.screens.common.fragments.BaseFragment
 import com.techyourchance.dagger2course.screens.questiondetails.QuestionDetailsActivity
 import com.techyourchance.dagger2course.screens.viewsmvc.ViewMvcFactory
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 class QuestionsListFragment : BaseFragment(), QuestionsListViewMvc.Listener {
 
@@ -32,13 +33,21 @@ class QuestionsListFragment : BaseFragment(), QuestionsListViewMvc.Listener {
     private lateinit var viewMvc: QuestionsListViewMvc
 
 
-    @field:Service
-    private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
-    @field:Service
-    private lateinit var dialogsNavigator: DialogsNavigator
-    @field:Service
-    private lateinit var screensNavigator: ScreensNavigator
-    @field:Service
+//    @field:Service
+
+    @Inject
+     lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+
+    //    @field:Service
+    @Inject
+     lateinit var dialogsNavigator: DialogsNavigator
+
+    //    @field:Service
+    @Inject
+     lateinit var screensNavigator: ScreensNavigator
+
+    //    @field:Service
+    @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {

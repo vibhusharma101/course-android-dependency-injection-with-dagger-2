@@ -19,6 +19,7 @@ import com.techyourchance.dagger2course.screens.viewsmvc.ViewMvcFactory
 import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener {
 
@@ -29,14 +30,17 @@ class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener 
 
     private lateinit var viewMvc: QuestionDetailsViewMvc
 
-    @field:Service
-    private lateinit var fetchQuestionsDetailsUseCase: FetchQuestionsDetailsUseCase
-    @field:Service
-    private lateinit var dialogsNavigator: DialogsNavigator
-    @field:Service
-    private lateinit var screensNavigator: ScreensNavigator
-    @field:Service
-    private lateinit var viewMvcFactory: ViewMvcFactory
+    @Inject
+    lateinit var fetchQuestionsDetailsUseCase: FetchQuestionsDetailsUseCase
+
+    @Inject
+    lateinit var dialogsNavigator: DialogsNavigator
+
+    @Inject
+    lateinit var screensNavigator: ScreensNavigator
+
+    @Inject
+    lateinit var viewMvcFactory: ViewMvcFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
